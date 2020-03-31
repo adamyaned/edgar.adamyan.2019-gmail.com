@@ -27,7 +27,7 @@ def mess(message):
     else:
         data = covid.get_status_by_country_name(getMessage)
         #<br>Վերջին Թարմացումը: <b> {datetime.datetime.fromtimestamp(data['last_update']/1000.0)}</b>
-    replyMessage = f"COVID-19-ի վերջին տվյալները <b>{string.capwords(message.text)}-ում</b><br>Վարակված: <b>{data['confirmed']}</b><br>Ապաքինված: <b>{data['recovered']}</b><br>Մահացած: <b>{data['deaths']}</b><br>Վարակակիր: <b>{data['active']}</b>"
+    replyMessage = f"COVID-19-ի վերջին տվյալները <b>{string.capwords(message.text)}-ում</b></br>Վարակված: <b>{data['confirmed']}</b></br>Ապաքինված: <b>{data['recovered']}</b></br>Մահացած: <b>{data['deaths']}</b></br>Վարակակիր: <b>{data['active']}</b>"
     bot.send_message(message.chat.id, replyMessage, parse_mode='html')
 
 bot.polling(none_stop=True)
