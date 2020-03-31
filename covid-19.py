@@ -5,7 +5,7 @@ import datetime
 import time
 import string
 covid = Covid(source="worldometers")
-bot = telebot.TeleBot('1124830353:AAEl8YHHDfGR3xN4BUXxFgOCq5ieL9euTLA')
+bot = telebot.TeleBot('1124830353:AAE5tDXSRBdXBGI-wzdx6MIR0MXE98Zo8Dw')
 data = {}
 
 @bot.message_handler(commands=['start'])
