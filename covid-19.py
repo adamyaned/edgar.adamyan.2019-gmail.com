@@ -15,7 +15,7 @@ def start(message):
 	btn2 = types.KeyboardButton('World')
 	markup.add(btn1, btn2)
 
-	messageText = "Ողջույն {message.from_user.first_name}! Կորոնավիրուսի մասին վերջին տվյալները ստանալու համար ուղարկեք երկրի անունը (լատինատառերով), օրինակ՝ Armenia, Russia, Italy, Iran և այլն։"
+	messageText = "Ողջույն {{message.from_user.first_name}}! Կորոնավիրուսի մասին վերջին տվյալները ստանալու համար ուղարկեք երկրի անունը (լատինատառերով), օրինակ՝ Armenia, Russia, Italy, Iran և այլն։"
 	bot.send_message(message.chat.id, messageText, parse_mode='html', reply_markup=markup)
 
 @bot.message_handler(content_types=['text'])
@@ -26,7 +26,8 @@ def mess(message):
         print(data)
     else:
         data = covid.get_status_by_country_name(getMessage)
-    replyMessage = 'COVID-19 in {0} \n Confirmed: {1} \n Deaths: {2} \n Active: {3} \n Recovered: {4} \n Last update: {5}'.format(string.capwords(message.text), data['confirmed'], data['deaths'], data['active'], data['recovered'], datetime.datetime.fromtimestamp(data['last_update']/1000.0))    
+    replyMessage = "Thanks"
+    #replyMessage = "COVID-19 in {0} \n Confirmed: {1} \n Deaths: {2} \n Active: {3} \n Recovered: {4} \n Last update: {5}'.format(string.capwords(message.text), data['confirmed'], data['deaths'], data['active'], data['recovered'], datetime.datetime.fromtimestamp(data['last_update']/1000.0))    
     bot.send_message(message.chat.id, replyMessage, parse_mode='html')
 
 bot.polling(none_stop=True)
