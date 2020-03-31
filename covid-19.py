@@ -23,10 +23,11 @@ def mess(message):
     getMessage=message.text.strip().lower()
     if getMessage=="world":
         data={'active':covid.get_total_active_cases(),'confirmed':covid.get_total_confirmed_cases(),'deaths':covid.get_total_deaths(),'recovered':covid.get_total_recovered(),'last_update':int(round(time.time()*1000))}
+        replyMessage = f"COVID-19-ի վերջին տվյալները Աշխարհում։ Աշխարհում կա <b>{data['confirmed']}</b> վարակված անձ որոնցից ապաքինվել է <b>{data['recovered']}</b> մարդ, մահացել <b>{data['deaths']}</b>-ը և այժմ բուժում է ստանում <b>{data['active']}</b> մարդ։"
     else:
         data = covid.get_status_by_country_name(getMessage)
-        #<br>Վերջին Թարմացումը: <b> {datetime.datetime.fromtimestamp(data['last_update']/1000.0)}</b>
-    replyMessage = f"COVID-19-ի վերջին տվյալները <b>{string.capwords(message.text)}</b>-ում։ Երկրում կա <b>{data['confirmed']}</b> վարակված անձ որոնցից ապաքինվել է <b>{data['recovered']}</b> մարդ, մահացել <b>{data['deaths']}</b>-ը և այժմ բուժում է ստանում<b>{data['active']}</b> մարդ։"
+        replyMessage = f"COVID-19-ի վերջին տվյալները <b>{string.capwords(message.text)}</b>-ում։ Երկրում կա <b>{data['confirmed']}</b> վարակված անձ որոնցից ապաքինվել է <b>{data['recovered']}</b> մարդ, մահացել <b>{data['deaths']}</b>-ը և այժմ բուժում է ստանում <b>{data['active']}</b> մարդ։"
+
     bot.send_message(message.chat.id, replyMessage, parse_mode='html')
 
 bot.polling(none_stop=True)
