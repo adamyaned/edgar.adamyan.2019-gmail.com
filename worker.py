@@ -1,11 +1,13 @@
-import os
 import schedule
 import time
+import subprocess
+
+subprocess.Popen("covid-19.py", shell=True)
 
 def job():
-    os.system("covid-19.py")
+    subprocess.Popen("covid-19.py", shell=True)
 
-schedule.every(1).minutes.do(job)
+schedule.every(5).minutes.do(job)
 
 while 1:
     schedule.run_pending()
