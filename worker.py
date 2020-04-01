@@ -2,10 +2,10 @@ import schedule
 import time
 import subprocess
 
-subprocess.Popen("covid-19.py", shell=True)
+subprocess.call("python covid-19.py", shell=True)
 
 def job():
-    subprocess.Popen("covid-19.py", shell=True)
+    subprocess.call("python covid-19.py", shell=True)
 
 schedule.every(5).minutes.do(job)
 
