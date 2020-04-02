@@ -21,11 +21,11 @@ def mess(message):
     covid = Covid(source="worldometers")
     if getMessage=="world":
         data={'active':covid.get_total_active_cases(),'confirmed':covid.get_total_confirmed_cases(),'deaths':covid.get_total_deaths(),'recovered':covid.get_total_recovered(),'last_update':int(round(time.time()*1000))}
-        replyMessage = f"COVID-19-ի վերջին տվյալները Աշխարհում։ Աշխարհում կա <b>{data['confirmed']}</b> վարակված անձ որոնցից ապաքինվել է <b>{data['recovered']}({round(data['recovered']*100/data['confirmed']), 2}%)</b> մարդ, մահացել <b>{data['deaths']}({round(data['deaths']*100/data['confirmed'], 2)}%)</b>-ը և այժմ բուժում է ստանում <b>{data['active']}({round(data['active']*100/data['confirmed'], 2)}%)</b> մարդ։"
+        replyMessage = f"COVID-19-ի վերջին տվյալները Աշխարհում։ Աշխարհում կա <b>{data['confirmed']}</b> վարակված անձ որոնցից ապաքինվել է <b>{data['recovered']}({round(data['recovered']*100/data['confirmed'], 2)}%)</b> մարդ, մահացել <b>{data['deaths']}({round(data['deaths']*100/data['confirmed'], 2)}%)</b>-ը և այժմ բուժում է ստանում <b>{data['active']}({round(data['active']*100/data['confirmed'], 2)}%)</b> մարդ։"
         data.clear()
     else:
         data = covid.get_status_by_country_name(getMessage)
-        replyMessage = f"COVID-19-ի վերջին տվյալները <b>{string.capwords(message.text)}</b>-ում։ Երկրում կա <b>{data['confirmed']}</b> վարակված անձ որոնցից ապաքինվել է <b>{data['recovered']}({round(data['recovered']*100/data['confirmed']), 2}%)</b> մարդ, մահացել <b>{data['deaths']}({round(data['deaths']*100/data['confirmed'], 2)}%)</b>-ը և այժմ բուժում է ստանում <b>{data['active']}({round(data['active']*100/data['confirmed'], 2)}%)</b> մարդ։ Վերջին մեկ օրում գրանցվել է <b>{data['new_cases']}</b> նոր դեպք, վարակվածքների թվի տոկոսային աճը՝ <b>{((data['confirmed']-data['new_cases'])*100)/(data['confirmed']-data['new_cases'])}</b>%"
+        replyMessage = f"COVID-19-ի վերջին տվյալները <b>{string.capwords(message.text)}</b>-ում։ Երկրում կա <b>{data['confirmed']}</b> վարակված անձ որոնցից ապաքինվել է <b>{data['recovered']}({round(data['recovered']*100/data['confirmed'], 2)}%)</b> մարդ, մահացել <b>{data['deaths']}({round(data['deaths']*100/data['confirmed'], 2)}%)</b>-ը և այժմ բուժում է ստանում <b>{data['active']}({round(data['active']*100/data['confirmed'], 2)}%)</b> մարդ։ Վերջին մեկ օրում գրանցվել է <b>{data['new_cases']}</b> նոր դեպք, վարակվածների թվի տոկոսային աճը՝ <b>{round(((data['confirmed']-data['new_cases'])*100)/(data['confirmed']-data['new_cases']), 2)}%</b>"
         data.clear()
         
     bot.send_message(message.chat.id, replyMessage, parse_mode='html')
