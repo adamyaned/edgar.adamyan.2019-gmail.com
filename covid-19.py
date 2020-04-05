@@ -1,11 +1,14 @@
 import telebot
+import threading
+from functools import wraps
 from telebot import types
 from covid import Covid
 import datetime
 import time
 import string
 bot = telebot.TeleBot('1124830353:AAE5tDXSRBdXBGI-wzdx6MIR0MXE98Zo8Dw')
-
+timeOutBool = false
+timeOut=99999999999999
 @bot.message_handler(commands=['start'])
 def start(message):
 	markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
@@ -36,6 +39,13 @@ def mess(message):
         replyMessage = f"COVID-19-ի վերջին տվյալները <b>{string.capwords(message.text)}</b>-ում։ Երկրում կա <b>{data['confirmed']}</b> վարակված անձ որոնցից ապաքինվել է <b>{data['recovered']}({round(data['recovered']*100/(data['deaths']+data['recovered']), 2)}%)</b> մարդ, մահացել <b>{data['deaths']}({round(data['deaths']*100/(data['deaths']+data['recovered']), 2)}%)</b>-ը և այժմ բուժում է ստանում <b>{data['active']}({round(data['active']*100/data['confirmed'], 2)}%)</b> մարդ։ Վերջին մեկ օրում գրանցվել է <b>{data['new_cases']}</b> նոր դեպք, վարակվածների թվի տոկոսային աճը՝ <b>{round((data['new_cases']/(data['confirmed']-data['new_cases']))*100, 2)}%</b>"
         data.clear()
         bot.send_message(message.chat.id, replyMessage, parse_mode='html')
+    elif "set" in getMessage:
+        params = getMessage.split("=")
+        timeOut=params[2] * 3600
+        country = params[1].replace('timeout', '')
+        data = covid.get_status_by_country_name(country)
+        loop(country, data)
+        bot.send_message(message.chat.id, "Հաճախականությունը հաջողությամբ ընտրված է {params}", parse_mode='html')
     else:
         replyMessage = "Երկրի անունը սխալ է!"
         bot.send_message(message.chat.id, replyMessage, parse_mode='html')
@@ -45,13 +55,28 @@ def callback_inline(call):
     try:
         if call.message:
             if call.data == 'yes':
-                bot.send_message(call.message.chat.id, 'yes')
+                timeOutBool = true
+                bot.send_message(call.message.chat.id, 'Բարի, երկիրը ընտրելու համար ուղարկենք հետևյալ հրահանգը՝ set country=երկրի անունը timeout=հաճախականությունը(ժամերով)։ Օրինակ` set country=armenia timeout=1:')
             elif call.data == 'no':
-                bot.send_message(call.message.chat.id, 'no')
- 
-            # remove inline buttons
+                timeOutBool = false
+                bot.send_message(call.message.chat.id, 'Լավ')
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Ցանկանում եք, որ ես ավտոմատ կերպով ուղարկեմ ձեր ընտրած երկրի տվյալները ձեր իսկ ցանկացած հաճախականությամբ?",reply_markup=None)
     except Exception as e:
         print(repr(e))
 
+def delay(delay=0.):
+    def wrap(f):
+        @wraps(f)
+        def delayed(*args, **kwargs):
+            timer = threading.Timer(delay, f, args=args, kwargs=kwargs)
+            timer.start()
+        return delayed
+    return wrap
+
+@delay(timeOut)
+def loop(country, data):
+    replyMessage = f"COVID-19-ի վերջին տվյալները <b>{string.capwords(country)}</b>-ում։ Երկրում կա <b>{data['confirmed']}</b> վարակված անձ որոնցից ապաքինվել է <b>{data['recovered']}({round(data['recovered']*100/(data['deaths']+data['recovered']), 2)}%)</b> մարդ, մահացել <b>{data['deaths']}({round(data['deaths']*100/(data['deaths']+data['recovered']), 2)}%)</b>-ը և այժմ բուժում է ստանում <b>{data['active']}({round(data['active']*100/data['confirmed'], 2)}%)</b> մարդ։ Վերջին մեկ օրում գրանցվել է <b>{data['new_cases']}</b> նոր դեպք, վարակվածների թվի տոկոսային աճը՝ <b>{round((data['new_cases']/(data['confirmed']-data['new_cases']))*100, 2)}%</b>"
+    data.clear()
+    bot.send_message(message.chat.id, replyMessage, parse_mode='html')
+    
 bot.polling(none_stop=True)
