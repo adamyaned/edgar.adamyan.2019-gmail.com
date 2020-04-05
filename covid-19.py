@@ -76,7 +76,7 @@ def delay(delay=0.):
 
 @delay(timeOut)
 def loop(country, data):
-    while timeOutBool=True:
+    while timeOutBool==True:
         time.sleep(timeOut)
         replyMessage = f"COVID-19-ի վերջին տվյալները <b>{string.capwords(country)}</b>-ում։ Երկրում կա <b>{data['confirmed']}</b> վարակված անձ որոնցից ապաքինվել է <b>{data['recovered']}({round(data['recovered']*100/(data['deaths']+data['recovered']), 2)}%)</b> մարդ, մահացել <b>{data['deaths']}({round(data['deaths']*100/(data['deaths']+data['recovered']), 2)}%)</b>-ը և այժմ բուժում է ստանում <b>{data['active']}({round(data['active']*100/data['confirmed'], 2)}%)</b> մարդ։ Վերջին մեկ օրում գրանցվել է <b>{data['new_cases']}</b> նոր դեպք, վարակվածների թվի տոկոսային աճը՝ <b>{round((data['new_cases']/(data['confirmed']-data['new_cases']))*100, 2)}%</b>"
         data.clear()
