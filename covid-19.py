@@ -46,7 +46,7 @@ def mess(message):
         if country in countries:
             data = covid.get_status_by_country_name(country)
             loop(country, data)
-            bot.send_message(message.chat.id, "Հաճախականությունը հաջողությամբ ընտրված է {params}", parse_mode='html')
+            bot.send_message(message.chat.id, "Հաճախականությունը հաջողությամբ ընտրված է", parse_mode='html')
     else:
         replyMessage = "Երկրի անունը սխալ է!"
         bot.send_message(message.chat.id, replyMessage, parse_mode='html')
@@ -76,8 +76,10 @@ def delay(delay=0.):
 
 @delay(timeOut)
 def loop(country, data):
-    replyMessage = f"COVID-19-ի վերջին տվյալները <b>{string.capwords(country)}</b>-ում։ Երկրում կա <b>{data['confirmed']}</b> վարակված անձ որոնցից ապաքինվել է <b>{data['recovered']}({round(data['recovered']*100/(data['deaths']+data['recovered']), 2)}%)</b> մարդ, մահացել <b>{data['deaths']}({round(data['deaths']*100/(data['deaths']+data['recovered']), 2)}%)</b>-ը և այժմ բուժում է ստանում <b>{data['active']}({round(data['active']*100/data['confirmed'], 2)}%)</b> մարդ։ Վերջին մեկ օրում գրանցվել է <b>{data['new_cases']}</b> նոր դեպք, վարակվածների թվի տոկոսային աճը՝ <b>{round((data['new_cases']/(data['confirmed']-data['new_cases']))*100, 2)}%</b>"
-    data.clear()
-    bot.send_message(message.chat.id, replyMessage, parse_mode='html')
+    while timeOutBool=True:
+        time.sleep(timeOut)
+        replyMessage = f"COVID-19-ի վերջին տվյալները <b>{string.capwords(country)}</b>-ում։ Երկրում կա <b>{data['confirmed']}</b> վարակված անձ որոնցից ապաքինվել է <b>{data['recovered']}({round(data['recovered']*100/(data['deaths']+data['recovered']), 2)}%)</b> մարդ, մահացել <b>{data['deaths']}({round(data['deaths']*100/(data['deaths']+data['recovered']), 2)}%)</b>-ը և այժմ բուժում է ստանում <b>{data['active']}({round(data['active']*100/data['confirmed'], 2)}%)</b> մարդ։ Վերջին մեկ օրում գրանցվել է <b>{data['new_cases']}</b> նոր դեպք, վարակվածների թվի տոկոսային աճը՝ <b>{round((data['new_cases']/(data['confirmed']-data['new_cases']))*100, 2)}%</b>"
+        data.clear()
+        bot.send_message(message.chat.id, replyMessage, parse_mode='html')
     
 bot.polling(none_stop=True)
