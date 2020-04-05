@@ -59,7 +59,7 @@ def callback_inline(call):
             if call.data == 'yes':
                 timeOutBool = True
                 bot.send_message(call.message.chat.id, 'Բարի, երկիրը ընտրելու համար ուղարկենք հետևյալ հրահանգը՝ set country=երկրի անունը timeout=հաճախականությունը(ժամերով)։ Օրինակ` set country=armenia timeout=1:')
-            elif call.data == 'no'
+            elif call.data == 'no':
                 bot.send_message(call.message.chat.id, 'Լավ')
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Ցանկանում եք, որ ես ավտոմատ կերպով ուղարկեմ ձեր ընտրած երկրի տվյալները ձեր իսկ ցանկացած հաճախականությամբ?",reply_markup=None)
     except Exception as e:
