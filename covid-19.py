@@ -45,7 +45,6 @@ def mess(message):
         country = params[1].replace('timeout', '').replace(" ", "")
         if country in countries:
             data = covid.get_status_by_country_name(country)
-            @delay(timeOut)
             loop(country, data)
             bot.send_message(message.chat.id, "Հաճախականությունը հաջողությամբ ընտրված է", parse_mode='html')
     else:
@@ -54,6 +53,7 @@ def mess(message):
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
+    global timeOutBool
     try:
         if call.message:
             if call.data == 'yes':
@@ -75,11 +75,13 @@ def delay(delay=0.):
         return delayed
     return wrap
 
+@delay(timeOut)
 def loop(country, data):
+    global timeOutBool
     while timeOutBool==True:
-        time.sleep(timeOut)
         replyMessage = f"COVID-19-ի վերջին տվյալները <b>{string.capwords(country)}</b>-ում։ Երկրում կա <b>{data['confirmed']}</b> վարակված անձ որոնցից ապաքինվել է <b>{data['recovered']}({round(data['recovered']*100/(data['deaths']+data['recovered']), 2)}%)</b> մարդ, մահացել <b>{data['deaths']}({round(data['deaths']*100/(data['deaths']+data['recovered']), 2)}%)</b>-ը և այժմ բուժում է ստանում <b>{data['active']}({round(data['active']*100/data['confirmed'], 2)}%)</b> մարդ։ Վերջին մեկ օրում գրանցվել է <b>{data['new_cases']}</b> նոր դեպք, վարակվածների թվի տոկոսային աճը՝ <b>{round((data['new_cases']/(data['confirmed']-data['new_cases']))*100, 2)}%</b>"
         data.clear()
         bot.send_message(message.chat.id, replyMessage, parse_mode='html')
+        time.sleep(timeOut)
     
 bot.polling(none_stop=True)
