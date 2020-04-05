@@ -34,7 +34,7 @@ def mess(message):
     bot.send_message(message.chat.id, replyMessage, parse_mode='html')
 
 @bot.message_handler(commands=['settings'])
-def (message):
+def settings(message):
     markup = types.InlineKeyboardMarkup(row_width=2)
     item1 = types.InlineKeyboardButton("Այո", callback_data='yes')
     item2 = types.InlineKeyboardButton("Ոչ", callback_data='no')
