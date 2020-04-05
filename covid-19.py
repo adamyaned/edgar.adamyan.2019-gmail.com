@@ -7,7 +7,7 @@ import datetime
 import time
 import string
 bot = telebot.TeleBot('1124830353:AAE5tDXSRBdXBGI-wzdx6MIR0MXE98Zo8Dw')
-timeOutBool = false
+timeOutBool = False
 timeOut=99999999999999
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -55,10 +55,10 @@ def callback_inline(call):
     try:
         if call.message:
             if call.data == 'yes':
-                timeOutBool = true
+                timeOutBool = True
                 bot.send_message(call.message.chat.id, 'Բարի, երկիրը ընտրելու համար ուղարկենք հետևյալ հրահանգը՝ set country=երկրի անունը timeout=հաճախականությունը(ժամերով)։ Օրինակ` set country=armenia timeout=1:')
             elif call.data == 'no':
-                timeOutBool = false
+                timeOutBool = False
                 bot.send_message(call.message.chat.id, 'Լավ')
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Ցանկանում եք, որ ես ավտոմատ կերպով ուղարկեմ ձեր ընտրած երկրի տվյալները ձեր իսկ ցանկացած հաճախականությամբ?",reply_markup=None)
     except Exception as e:
