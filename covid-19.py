@@ -42,10 +42,11 @@ def mess(message):
     elif "set" in getMessage:
         params = getMessage.split("=")
         timeOut=params[2] * 3600
-        country = params[1].replace('timeout', '')
-        data = covid.get_status_by_country_name(country)
-        loop(country, data)
-        bot.send_message(message.chat.id, "Հաճախականությունը հաջողությամբ ընտրված է {params}", parse_mode='html')
+        country = params[1].replace('timeout', '').replace(" ", "")
+        if country in countries
+            data = covid.get_status_by_country_name(country)
+            loop(country, data)
+            bot.send_message(message.chat.id, "Հաճախականությունը հաջողությամբ ընտրված է {params}", parse_mode='html')
     else:
         replyMessage = "Երկրի անունը սխալ է!"
         bot.send_message(message.chat.id, replyMessage, parse_mode='html')
