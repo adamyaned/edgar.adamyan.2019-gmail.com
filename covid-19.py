@@ -33,4 +33,26 @@ def mess(message):
         
     bot.send_message(message.chat.id, replyMessage, parse_mode='html')
 
+@bot.message_handler(commands=['settings'])
+def (message):
+    markup = types.InlineKeyboardMarkup(row_width=2)
+    item1 = types.InlineKeyboardButton("Այո", callback_data='yes')
+    item2 = types.InlineKeyboardButton("Ոչ", callback_data='no')
+    markup.add(item1, item2)
+    bot.send_message(message.chat.id, 'Ցանկանում եք, որ ես ավտոմատ կերպով ուղարկեմ ձեր ընտրած երկրի տվյալները ձեր իսկ ցանկացած հաճախականությամբ?', reply_markup=markup)
+
+@bot.callback_query_handler(func=lambda call: True)
+def callback_inline(call):
+    try:
+        if call.message:
+            if call.data == 'yes':
+                bot.send_message(call.message.chat.id, 'yes')
+            elif call.data == 'no':
+                bot.send_message(call.message.chat.id, 'no')
+ 
+            # remove inline buttons
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Ցանկանում եք, որ ես ավտոմատ կերպով ուղարկեմ ձեր ընտրած երկրի տվյալները ձեր իսկ ցանկացած հաճախականությամբ?",reply_markup=None)
+    except Exception as e:
+        print(repr(e))
+
 bot.polling(none_stop=True)
