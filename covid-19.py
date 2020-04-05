@@ -8,7 +8,7 @@ import time
 import string
 bot = telebot.TeleBot('1124830353:AAE5tDXSRBdXBGI-wzdx6MIR0MXE98Zo8Dw')
 timeOutBool = False
-timeOut=99999999999999
+timeOut=9999
 @bot.message_handler(commands=['start'])
 def start(message):
 	markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
@@ -45,6 +45,7 @@ def mess(message):
         country = params[1].replace('timeout', '').replace(" ", "")
         if country in countries:
             data = covid.get_status_by_country_name(country)
+            @delay(timeOut)
             loop(country, data)
             bot.send_message(message.chat.id, "Հաճախականությունը հաջողությամբ ընտրված է", parse_mode='html')
     else:
@@ -74,7 +75,6 @@ def delay(delay=0.):
         return delayed
     return wrap
 
-@delay(timeOut)
 def loop(country, data):
     while timeOutBool==True:
         time.sleep(timeOut)
