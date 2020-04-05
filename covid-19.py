@@ -40,13 +40,17 @@ def mess(message):
         data.clear()
         bot.send_message(message.chat.id, replyMessage, parse_mode='html')
     elif "set" in getMessage:
+        bot.send_message(message.chat.id, "Հաճախականությունը հաջողությամբ ընտրված է", parse_mode='html')
         params = getMessage.split("=")
         timeOut=params[2] * 3600
         country = params[1].replace('timeout', '').replace(" ", "")
         if country in countries:
             data = covid.get_status_by_country_name(country)
-            loop(country, data, message)
-            bot.send_message(message.chat.id, "Հաճախականությունը հաջողությամբ ընտրված է", parse_mode='html')
+            while timeOutBool==True:
+                replyMessage = f"COVID-19-ի վերջին տվյալները <b>{string.capwords(country)}</b>-ում։ Երկրում կա <b>{data['confirmed']}</b> վարակված անձ որոնցից ապաքինվել է <b>{data['recovered']}({round(data['recovered']*100/(data['deaths']+data['recovered']), 2)}%)</b> մարդ, մահացել <b>{data['deaths']}({round(data['deaths']*100/(data['deaths']+data['recovered']), 2)}%)</b>-ը և այժմ բուժում է ստանում <b>{data['active']}({round(data['active']*100/data['confirmed'], 2)}%)</b> մարդ։ Վերջին մեկ օրում գրանցվել է <b>{data['new_cases']}</b> նոր դեպք, վարակվածների թվի տոկոսային աճը՝ <b>{round((data['new_cases']/(data['confirmed']-data['new_cases']))*100, 2)}%</b>"
+                data.clear()
+                bot.send_message(message.chat.id, replyMessage, parse_mode='html')
+                time.sleep(timeOut)
     else:
         replyMessage = "Երկրի անունը սխալ է!"
         bot.send_message(message.chat.id, replyMessage, parse_mode='html')
@@ -64,24 +68,5 @@ def callback_inline(call):
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Ցանկանում եք, որ ես ավտոմատ կերպով ուղարկեմ ձեր ընտրած երկրի տվյալները ձեր իսկ ցանկացած հաճախականությամբ?",reply_markup=None)
     except Exception as e:
         print(repr(e))
-
-def delay(delay=0.):
-    def wrap(f):
-        @wraps(f)
-        def delayed(*args, **kwargs):
-            timer = threading.Timer(delay, f, args=args, kwargs=kwargs)
-            timer.start()
-        return delayed
-    return wrap
-
-@delay(timeOut)
-def loop(country, data, message):
-    global timeOutBool
-    while timeOutBool==True:
-        replyMessage = f"COVID-19-ի վերջին տվյալները <b>{string.capwords(country)}</b>-ում։ Երկրում կա <b>{data['confirmed']}</b> վարակված անձ որոնցից ապաքինվել է <b>{data['recovered']}({round(data['recovered']*100/(data['deaths']+data['recovered']), 2)}%)</b> մարդ, մահացել <b>{data['deaths']}({round(data['deaths']*100/(data['deaths']+data['recovered']), 2)}%)</b>-ը և այժմ բուժում է ստանում <b>{data['active']}({round(data['active']*100/data['confirmed'], 2)}%)</b> մարդ։ Վերջին մեկ օրում գրանցվել է <b>{data['new_cases']}</b> նոր դեպք, վարակվածների թվի տոկոսային աճը՝ <b>{round((data['new_cases']/(data['confirmed']-data['new_cases']))*100, 2)}%</b>"
-        data.clear()
-        bot.send_message(message.chat.id, replyMessage, parse_mode='html')
-        print("66666666")
-        time.sleep(timeOut)
-    
+        
 bot.polling(none_stop=True)
