@@ -13,7 +13,7 @@ timeOut=9999
 def start(message):
 	markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
 	btn1 = types.KeyboardButton('Armenia')
-	btn2 = types.KeyboardButton('World')
+    btn2 = types.KeyboardButton('World')
     btn3 = types.KeyboardButton('Settings')
     markup.add(btn1, btn2, btn3)
 	messageText = f"Ողջույն <b>{message.from_user.first_name}</b>! Կորոնավիրուսի մասին վերջին տվյալները ստանալու համար ուղարկեք երկրի անունը (լատինատառերով), օրինակ՝ Armenia, Russia, Italy, Iran և այլն։"
