@@ -16,8 +16,8 @@ def start(message):
     btn2 = types.KeyboardButton('World')
     btn3 = types.KeyboardButton('Settings')
     markup.add(btn1, btn2, btn3)
-	messageText = f"Ողջույն <b>{message.from_user.first_name}</b>! Կորոնավիրուսի մասին վերջին տվյալները ստանալու համար ուղարկեք երկրի անունը (լատինատառերով), օրինակ՝ Armenia, Russia, Italy, Iran և այլն։"
-	bot.send_message(message.chat.id, messageText, parse_mode='html', reply_markup=markup)
+    messageText = f"Ողջույն <b>{message.from_user.first_name}</b>! Կորոնավիրուսի մասին վերջին տվյալները ստանալու համար ուղարկեք երկրի անունը (լատինատառերով), օրինակ՝ Armenia, Russia, Italy, Iran և այլն։"
+    bot.send_message(message.chat.id, messageText, parse_mode='html', reply_markup=markup)
 
 @bot.message_handler(content_types=['text'])
 def mess(message):
