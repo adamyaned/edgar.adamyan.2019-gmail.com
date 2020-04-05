@@ -43,7 +43,7 @@ def mess(message):
         params = getMessage.split("=")
         timeOut=params[2] * 3600
         country = params[1].replace('timeout', '').replace(" ", "")
-        if country in countries
+        if country in countries:
             data = covid.get_status_by_country_name(country)
             loop(country, data)
             bot.send_message(message.chat.id, "Հաճախականությունը հաջողությամբ ընտրված է {params}", parse_mode='html')
