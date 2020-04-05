@@ -11,8 +11,8 @@ timeOutBool = False
 timeOut=9999
 @bot.message_handler(commands=['start'])
 def start(message):
-	markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-	btn1 = types.KeyboardButton('Armenia')
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    btn1 = types.KeyboardButton('Armenia')
     btn2 = types.KeyboardButton('World')
     btn3 = types.KeyboardButton('Settings')
     markup.add(btn1, btn2, btn3)
