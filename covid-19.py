@@ -6,7 +6,7 @@ from covid import Covid
 import datetime
 import time
 import string
-bot = telebot.TeleBot('1124830353:AAE5tDXSRBdXBGI-wzdx6MIR0MXE98Zo8Dw')
+bot = telebot.TeleBot('1124830353:AAGcKzwJ0VmgVS8ycmI5Vb8qIpYtcyxI70E')
 @bot.message_handler(commands=['start'])
 def start(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
