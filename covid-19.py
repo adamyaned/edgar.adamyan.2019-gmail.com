@@ -42,6 +42,7 @@ def mess(message):
         bot.send_message(message.chat.id, replyMessage, parse_mode='html')
     elif "set" in getMessage:
         bot.send_message(message.chat.id, "Հաճախականությունը հաջողությամբ ընտրված է", parse_mode='html')
+        getMessage = getMessage.replace(" ", "")
         params = getMessage.split("=")
         timeOut=int(float(params[2]) * 3600)
         country = params[1].replace('timeout', '').replace(" ", "")
@@ -71,4 +72,4 @@ def callback_inline(call):
     except Exception as e:
         print(repr(e))
 
-bot.polling(none_stop=True)
+bot.polling()
