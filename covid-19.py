@@ -36,7 +36,9 @@ def mess(message):
         bot.send_message(message.chat.id, replyMessage, parse_mode='html')
     else:
         try:
+            print(getMessage)
             data = covid.get_status_by_country_name(getMessage)
+            print(getMessage, data)
             replyMessage = f"COVID-19-ի վերջին տվյալները <b>{string.capwords(getMessage)}</b>-ում։ Երկրում կա <b>{data['confirmed']}</b> վարակված անձ որոնցից ապաքինվել է <b>{data['recovered']}({get_recovered_percent(data['recovered'], data['deaths'])}%)</b> մարդ, մահացել <b>{data['deaths']}({get_deaths_percent(data['recovered'], data['deaths'])}%)</b>-ը և այժմ բուժում է ստանում <b>{data['active']}({get_active_cases_percent(data['active'], data['confirmed'])}%)</b> մարդ։ Ընդհանուր կատարվել է <b>{data['total_tests']}</b> թեստավորում (յուրաքանչյուր մեկ միլիոն բնակչին ընկնող թեստավորումների քանակը <b>{data['total_tests_per_million']}</b> է)։ Վերջին մեկ օրում գրանցվել է <b>{data['new_cases']}</b> նոր դեպք, մահացել է <b>{data['new_deaths']}</b> մարդ։ Յուրաքանչյուր մեկ միլիոն բնակչից վարակվել է <b>{data['total_cases_per_million']}</b> մարդ, մահացել <b>{data['total_deaths_per_million']}</b>-ը։ Վարակվածների թվի տոկոսային աճը՝ <b>{round((data['new_cases']/(data['confirmed']-data['new_cases']))*100, 2)}%</b>"
             data.clear()
             bot.send_message(message.chat.id, replyMessage, parse_mode='html')
