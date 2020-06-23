@@ -6,7 +6,6 @@ from telebot import types
 import datetime
 import time
 import string
-from config import config
 
 bot = telebot.TeleBot('1124830353:AAGcKzwJ0VmgVS8ycmI5Vb8qIpYtcyxI70E')
 
