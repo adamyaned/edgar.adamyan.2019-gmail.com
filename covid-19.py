@@ -49,7 +49,7 @@ def start(message):
 
 @bot.message_handler(content_types=['text'])
 def mess(message):
-    getMessage=message.text.strip().capitalize()
+    string.capwords(getMessage=message.text.strip())
     if getMessage=="World":
         data = get_world_status()
         replyMessage = "Տվյալներ չեն գտնվել!"
