@@ -14,7 +14,7 @@ def get_status_by_country_name(country):
         country_code = pycountry.countries.get(name=country).alpha_2
         if country_code: 
             r = requests.get(f'http://api.coronatracker.com/v3/stats/worldometer/country?countryCode={country_code}')
-            return r.json()
+            return r.json()[0]
         else: 
             return False
     except Exception as error:
