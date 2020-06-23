@@ -54,16 +54,15 @@ def mess(message):
         data = get_world_status()
         replyMessage = "Տվյալներ չեն գտնվել!"
         if data: 
-            replyMessage = f"COVID-19-ի վերջին տվյալները Աշխարհում։ Աշխարհում կա <b>{data['totalConfirmed']}</b> վարակված անձ որոնցից ապաքինվել է <b>{data['totalRecovered']}({get_recovered_percent(data['totalRecovered'], data['totalDeaths'])}%)</b> մարդ, մահացել <b>{data['totalDeaths']}({get_deaths_percent(data['totalRecovered'], data['totalDeaths'])}%)</b>-ը և այժմ բուժում է ստանում <b>{data['totalActiveCases']}({get_active_cases_percent(data['totalActiveCases'], data['totalConfirmed'])}%)</b> մարդ։"
-        data.clear()
+            replyMessage = f"COVID-19-ի վերջին տվյալները Աշխարհում։ Աշխարհում կա <b>{data['totalConfirmed']}</b> վարակված անձ որոնցից ապաքինվել է <b>{data['totalRecovered']}({get_recovered_percent(data['totalRecovered'], data['totalDeaths'])}%)</b> մարդ, մահացել <b>{data['totalDeaths']}({get_deaths_percent(data['totalRecovered'], data['totalDeaths'])}%)</b>-ը և այժմ բուժում է ստանում <b>{data['totalActiveCases']}({get_active_cases_percent(data['totalActiveCases'], data['totalConfirmed'])}%)</b> մարդ։ Վերջին մեկ օրում գրանցվել է <b>{data['totalNewCases']}</b> նոր դեպք, մահացել է <b>{data['totalNewDeaths']}</b> մարդ։ Վարակվածների թվի տոկոսային աճը՝ <b>{round((data['totalNewCases']/(data['totalConfirmed']-data['totalNewCases']))*100, 2)}%</b>"
+        data = None
         bot.send_message(message.chat.id, replyMessage, parse_mode='html')
     else:
         data = get_status_by_country_name(getMessage)
+        replyMessage = "Երկրի անունը սխալ է, կամ տվյալներ չեն գտնվել!" 
         if data:
             replyMessage = f"COVID-19-ի վերջին տվյալները <b>{data['country']}</b>-ում։ Երկրում կա <b>{data['totalConfirmed']}</b> վարակված անձ որոնցից ապաքինվել է <b>{data['totalRecovered']}({get_recovered_percent(data['totalRecovered'], data['totalDeaths'])}%)</b> մարդ, մահացել <b>{data['totalDeaths']}({get_deaths_percent(data['totalRecovered'], data['totalDeaths'])}%)</b>-ը և այժմ բուժում է ստանում <b>{data['activeCases']}({get_active_cases_percent(data['activeCases'], data['totalConfirmed'])}%)</b> մարդ։ Վերջին մեկ օրում գրանցվել է <b>{data['dailyConfirmed']}</b> նոր դեպք, մահացել է <b>{data['dailyDeaths']}</b> մարդ։ Յուրաքանչյուր մեկ միլիոն բնակչից վարակվել է <b>{data['totalConfirmedPerMillionPopulation']}</b> մարդ, մահացել <b>{data['totalDeathsPerMillionPopulation']}</b>-ը։ Վարակվածների թվի տոկոսային աճը՝ <b>{round((data['dailyConfirmed']/(data['totalConfirmed']-data['dailyConfirmed']))*100, 2)}%</b>"
-        else:
-            replyMessage = "Երկրի անունը սխալ է, կամ տվյալներ չեն գտնվել!" 
-        data.clear()
+        data = None
         bot.send_message(message.chat.id, replyMessage, parse_mode='html')
 
 bot.polling(none_stop=True)
